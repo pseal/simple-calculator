@@ -2,7 +2,7 @@
 // Note: service workers only register in a "secure context" — https://, or http://localhost.
 // Opening index.html directly as a file:// URL will not activate this (browsers block SW there by design).
 
-const CACHE_NAME = 'calc-hud-v1';
+const CACHE_NAME = 'calc-hud-v2';
 
 const APP_SHELL = [
     './',

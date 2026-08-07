@@ -138,6 +138,7 @@ body::after {
     letter-spacing: 0.06em;
     text-transform: uppercase;
     flex: 1;
+    min-width: 0;
     text-shadow: 0 0 18px color-mix(in srgb, var(--accent-color) 55%, transparent);
 }
 
@@ -893,16 +894,21 @@ body::after {
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
+    min-width: 0;
 }
 
 .expr-result-label {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--accent-color);
+    flex-shrink: 0;
 }
 
 .expr-result-row input {
     flex: 1;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
     padding: 15px;
     font-size: 1.5rem;
     border: 2px solid var(--border-color);
