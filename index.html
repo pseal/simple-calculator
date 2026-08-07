@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Scientific Calculator</title>
+    <meta name="description" content="A multi-mode calculator with scientific, programmer, graphing, matrix, financial, and statistics tools.">
+    <meta name="theme-color" content="#0b1020">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Calculator">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header with Theme and Sound Toggle -->
+        <div class="header">
+            <h1>Advanced Calculator</h1>
+            <div class="controls">
+                <button class="control-btn" id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                    🌙
+                </button>
+                <button class="control-btn" id="sound-toggle" onclick="toggleSound()" title="Toggle Sound Effects">
+                    🔊
+                </button>
+            </div>
+        </div>
+
+        <!-- Mode Toggle -->
+        <div class="mode-toggle">
+            <button class="mode-btn active" onclick="switchMode('simple')">Simple</button>
+            <button class="mode-btn" onclick="switchMode('scientific')">Scientific</button>
+            <button class="mode-btn" onclick="switchMode('programmer')">Programmer</button>
+            <button class="mode-btn" onclick="switchMode('converter')">Base</button>
+            <button class="mode-btn" onclick="switchMode('units')">Units</button>
+            <button class="mode-btn" onclick="switchMode('currency')">Currency</button>
+            <button class="mode-btn" onclick="switchMode('expression')">Expression</button>
+            <button class="mode-btn" onclick="switchMode('statistics')">Statistics</button>
+            <button class="mode-btn" onclick="switchMode('combinatorics')">nPr / nCr</button>
+            <button class="mode-btn" onclick="switchMode('random')">Random</button>
+            <button class="mode-btn" onclick="switchMode('matrix')">Matrix</button>
+            <button class="mode-btn" onclick="switchMode('equations')">Equations</button>
+            <button class="mode-btn" onclick="switchMode('calculus')">Calculus</button>
+            <button class="mode-btn" onclick="switchMode('graphing')">Graphing</button>
+            <button class="mode-btn" onclick="switchMode('complex')">Complex</button>
+            <button class="mode-btn" onclick="switchMode('numtheory')">Number Theory</button>
+            <button class="mode-btn" onclick="switchMode('financial')">Financial</button>
+            <button class="mode-btn" onclick="switchMode('settings')">⚙ Settings</button>
+            <button class="mode-btn" onclick="switchMode('favorites')">★ Favorites</button>
+            <button class="mode-btn" onclick="switchMode('history')">History</button>
+        </div>
+
+        <div class="main-content">
+            <!-- Simple Calculator -->
+            <div id="simple-mode" class="calculator-mode active">
+                <div class="calculator">
+                    <div class="memory-display" id="simple-memory-display">M: 0</div>
+                    <div class="display">
+                        <input type="text" id="simple-result" placeholder="0" readonly>
+                    </div>
+                    <div class="expression-input" id="simple-expression-display"></div>
+                    <div class="memory-buttons">
+                        <button class="btn mem" onclick="simpleMemAdd()">M+</button>
+                        <button class="btn mem" onclick="simpleMemSub()">M−</button>
+                        <button class="btn mem" onclick="simpleMemRecall()">MR</button>
+                        <button class="btn mem" onclick="simpleMemClear()">MC</button>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn clear" onclick="clearSimple()">C</button>
+                        <button class="btn operator" onclick="appendSimpleOp('/')">&divide;</button>
+                        <button class="btn operator" onclick="appendSimpleOp('*')">&times;</button>
+                        <button class="btn operator" onclick="backspaceSimple()">←</button>
+                        
+                        <button class="btn" onclick="appendSimpleNum('7')">7</button>
+                        <button class="btn" onclick="appendSimpleNum('8')">8</button>
+                        <button class="btn" onclick="appendSimpleNum('9')">9</button>
+                        <button class="btn operator" onclick="appendSimpleOp('-')">−</button>
+                        
+                        <button class="btn" onclick="appendSimpleNum('4')">4</button>
+                        <button class="btn" onclick="appendSimpleNum('5')">5</button>
+                        <button class="btn" onclick="appendSimpleNum('6')">6</button>
+                        <button class="btn operator" onclick="appendSimpleOp('+')">+</button>
+                        
+                        <button class="btn" onclick="appendSimpleNum('1')">1</button>
+                        <button class="btn" onclick="appendSimpleNum('2')">2</button>
+                        <button class="btn" onclick="appendSimpleNum('3')">3</button>
+                        <button class="btn operator" onclick="appendSimpleOp('%')">%</button>
+                        
+                        <button class="btn zero" onclick="appendSimpleNum('0')">0</button>
+                        <button class="btn" onclick="appendSimpleNum('.')">.</button>
+                        <button class="btn equals" onclick="calculateSimple()">=</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scientific Calculator -->
+            <div id="scientific-mode" class="calculator-mode">
+                <div class="calculator scientific">
+                    <div class="angle-badge-row"><span class="angle-badge" id="sci-angle-badge">DEG</span></div>
+                    <div class="memory-display" id="sci-memory-display">M: 0</div>
+                    <div class="display">
+                        <input type="text" id="sci-result" placeholder="0" readonly>
+                    </div>
+                    <div class="expression-input" id="sci-expression-display"></div>
+                    <div class="memory-buttons">
+                        <button class="btn mem" onclick="sciMemAdd()">M+</button>
+                        <button class="btn mem" onclick="sciMemSub()">M−</button>
+                        <button class="btn mem" onclick="sciMemRecall()">MR</button>
+                        <button class="btn mem" onclick="sciMemClear()">MC</button>
+                    </div>
+                    <div class="buttons">
+                        <!-- Row 1 -->
+                        <button class="btn clear" onclick="clearScientific()">C</button>
+                        <button class="btn operator" onclick="appendSciOp('/')">&divide;</button>
+                        <button class="btn operator" onclick="appendSciOp('*')">&times;</button>
+                        <button class="btn operator" onclick="backspaceScientific()">←</button>
+                        <button class="btn func" onclick="sciFunction('sin')">sin</button>
+                        <button class="btn func" onclick="sciFunction('cos')">cos</button>
+                        
+                        <!-- Row 2 -->
+                        <button class="btn" onclick="appendSciNum('7')">7</button>
+                        <button class="btn" onclick="appendSciNum('8')">8</button>
+                        <button class="btn" onclick="appendSciNum('9')">9</button>
+                        <button class="btn operator" onclick="appendSciOp('-')">−</button>
+                        <button class="btn func" onclick="sciFunction('tan')">tan</button>
+                        <button class="btn func" onclick="sciFunction('log')">log</button>
+                        
+                        <!-- Row 3 -->
+                        <button class="btn" onclick="appendSciNum('4')">4</button>
+                        <button class="btn" onclick="appendSciNum('5')">5</button>
+                        <button class="btn" onclick="appendSciNum('6')">6</button>
+                        <button class="btn operator" onclick="appendSciOp('+')">+</button>
+                        <button class="btn func" onclick="sciFunction('sqrt')">√</button>
+                        <button class="btn func" onclick="sciFunction('ln')">ln</button>
+                        
+                        <!-- Row 4 -->
+                        <button class="btn" onclick="appendSciNum('1')">1</button>
+                        <button class="btn" onclick="appendSciNum('2')">2</button>
+                        <button class="btn" onclick="appendSciNum('3')">3</button>
+                        <button class="btn operator" onclick="appendSciOp('%')">%</button>
+                        <button class="btn func" onclick="sciFunction('pow')">x²</button>
+                        <button class="btn func" onclick="sciFunction('cbrt')">∛</button>
+                        
+                        <!-- Row 5 -->
+                        <button class="btn zero" onclick="appendSciNum('0')">0</button>
+                        <button class="btn" onclick="appendSciNum('.')">.</button>
+                        <button class="btn func" onclick="sciFunction('pi')">π</button>
+                        <button class="btn func" onclick="sciFunction('e')">e</button>
+                        <button class="btn func" onclick="sciFunction('fact')">n!</button>
+                        <button class="btn equals" onclick="calculateScientific()">=</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programmer Mode -->
+            <div id="programmer-mode" class="calculator-mode">
+                <div class="calculator programmer">
+                    <div class="memory-display" id="prog-memory-display">M: 0</div>
+                    <div class="display">
+                        <input type="text" id="prog-result" placeholder="0" readonly>
+                    </div>
+                    <div class="base-display">
+                        <div class="base-item">
+                            <span class="base-label">HEX:</span>
+                            <input type="text" id="prog-hex" readonly>
+                        </div>
+                        <div class="base-item">
+                            <span class="base-label">OCT:</span>
+                            <input type="text" id="prog-oct" readonly>
+                        </div>
+                        <div class="base-item">
+                            <span class="base-label">BIN:</span>
+                            <input type="text" id="prog-bin" readonly>
+                        </div>
+                    </div>
+                    <div class="memory-buttons">
+                        <button class="btn mem" onclick="progMemAdd()">M+</button>
+                        <button class="btn mem" onclick="progMemSub()">M−</button>
+                        <button class="btn mem" onclick="progMemRecall()">MR</button>
+                        <button class="btn mem" onclick="progMemClear()">MC</button>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn clear" onclick="clearProgrammer()">C</button>
+                        <button class="btn operator" onclick="appendProgOp('/')">&divide;</button>
+                        <button class="btn operator" onclick="appendProgOp('*')">&times;</button>
+                        <button class="btn operator" onclick="backspaceProgrammer()">←</button>
+                        <button class="btn func" onclick="progFunction('and')">AND</button>
+                        <button class="btn func" onclick="progFunction('or')">OR</button>
+                        
+                        <button class="btn" onclick="appendProgNum('7')">7</button>
+                        <button class="btn" onclick="appendProgNum('8')">8</button>
+                        <button class="btn" onclick="appendProgNum('9')">9</button>
+                        <button class="btn operator" onclick="appendProgOp('-')">−</button>
+                        <button class="btn func" onclick="progFunction('xor')">XOR</button>
+                        <button class="btn func" onclick="progFunction('not')">NOT</button>
+                        
+                        <button class="btn" onclick="appendProgNum('4')">4</button>
+                        <button class="btn" onclick="appendProgNum('5')">5</button>
+                        <button class="btn" onclick="appendProgNum('6')">6</button>
+                        <button class="btn operator" onclick="appendProgOp('+')">+</button>
+                        <button class="btn func" onclick="progFunction('lshift')">«</button>
+                        <button class="btn func" onclick="progFunction('rshift')">»</button>
+                        
+                        <button class="btn" onclick="appendProgNum('1')">1</button>
+                        <button class="btn" onclick="appendProgNum('2')">2</button>
+                        <button class="btn" onclick="appendProgNum('3')">3</button>
+                        <button class="btn operator" onclick="appendProgOp('%')">%</button>
+                        <button class="btn func" onclick="toggleBitDisplay()">BIT</button>
+                        <button class="btn func" onclick="toggleProgBase()">BASE</button>
+                        
+                        <button class="btn zero" onclick="appendProgNum('0')">0</button>
+                        <button class="btn" onclick="appendProgNum('.')">.</button>
+                        <button class="btn func" onclick="appendProgNum('A')">A</button>
+                        <button class="btn func" onclick="appendProgNum('F')">F</button>
+                        <button class="btn func" onclick="progFunction('mod')">MOD</button>
+                        <button class="btn equals" onclick="calculateProgrammer()">=</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Base Converter -->
+            <div id="converter-mode" class="calculator-mode">
+                <div class="calculator converter">
+                    <h3>Base Converter</h3>
+                    <div class="converter-container">
+                        <div class="converter-input">
+                            <label>Decimal</label>
+                            <input type="text" id="conv-decimal" placeholder="Enter decimal" oninput="convertFromDecimal()">
+                        </div>
+                        <div class="converter-input">
+                            <label>Binary</label>
+                            <input type="text" id="conv-binary" placeholder="Enter binary" oninput="convertFromBinary()">
+                        </div>
+                        <div class="converter-input">
+                            <label>Octal</label>
+                            <input type="text" id="conv-octal" placeholder="Enter octal" oninput="convertFromOctal()">
+                        </div>
+                        <div class="converter-input">
+                            <label>Hexadecimal</label>
+                            <input type="text" id="conv-hex" placeholder="Enter hexadecimal" oninput="convertFromHex()">
+                        </div>
+                    </div>
+                    <button class="btn clear" onclick="clearConverter()" style="width: 100%; margin-top: 20px;">Clear</button>
+                </div>
+            </div>
+
+            <!-- Unit Converter -->
+            <div id="units-mode" class="calculator-mode">
+                <div class="calculator units">
+                    <h3>Unit Converter</h3>
+                    <div class="unit-category-row">
+                        <label for="unit-category">Category</label>
+                        <select id="unit-category" onchange="onUnitCategoryChange()">
+                            <option value="length">Length</option>
+                            <option value="weight">Weight / Mass</option>
+                            <option value="temperature">Temperature</option>
+                            <option value="volume">Volume</option>
+                            <option value="area">Area</option>
+                            <option value="speed">Speed</option>
+                        </select>
+                    </div>
+                    <div class="unit-convert-row">
+                        <div class="unit-field">
+                            <input type="number" id="unit-from-value" placeholder="0" oninput="convertUnit('from')">
+                            <select id="unit-from-select" onchange="convertUnit('from')"></select>
+                        </div>
+                        <button class="btn unit-swap" onclick="swapUnits()" title="Swap units">⇄</button>
+                        <div class="unit-field">
+                            <input type="number" id="unit-to-value" placeholder="0" oninput="convertUnit('to')">
+                            <select id="unit-to-select" onchange="convertUnit('from')"></select>
+                        </div>
+                    </div>
+                    <button class="btn clear" onclick="clearUnitConverter()" style="width: 100%; margin-top: 10px;">Clear</button>
+                </div>
+            </div>
+
+            <!-- Currency Converter -->
+            <div id="currency-mode" class="calculator-mode">
+                <div class="calculator currency">
+                    <h3>Currency Converter</h3>
+                    <div class="unit-convert-row">
+                        <div class="unit-field">
+                            <input type="number" id="curr-amount" placeholder="0" value="1" oninput="convertCurrency()">
+                            <select id="curr-from" onchange="convertCurrency()"></select>
+                        </div>
+                        <button class="btn unit-swap" onclick="swapCurrency()" title="Swap currencies">⇄</button>
+                        <div class="unit-field">
+                            <input type="text" id="curr-result" placeholder="0" readonly>
+                            <select id="curr-to" onchange="convertCurrency()"></select>
+                        </div>
+                    </div>
+                    <div class="currency-status" id="curr-status">Loading rates…</div>
+                    <button class="btn" onclick="refreshCurrencyRates()" style="width: 100%; margin-top: 10px;">↻ Refresh Rates</button>
+                </div>
+            </div>
+
+            <!-- Expression Parser -->
+            <div id="expression-mode" class="calculator-mode">
+                <div class="calculator expression">
+                    <h3>Expression Parser <span class="angle-badge" id="expr-angle-badge">DEG</span></h3>
+                    <p class="expr-hint">Type a full equation, e.g. <code>5*(3+2)</code>, <code>sqrt(16)+2^3</code></p>
+                    <textarea id="expr-input" class="expr-textarea" placeholder="Enter an expression..." rows="3"></textarea>
+                    <div class="expr-result-row">
+                        <span class="expr-result-label">=</span>
+                        <input type="text" id="expr-result" placeholder="0" readonly>
+                    </div>
+                    <div class="expr-buttons">
+                        <button class="btn clear" onclick="clearExpression()">Clear</button>
+                        <button class="btn" onclick="favoriteExpression()" title="Save to favorites">☆ Save</button>
+                        <button class="btn equals" onclick="evaluateExpressionInput()">Evaluate</button>
+                    </div>
+                    <p class="expr-supported">Supported: + − * / % ^ ( ) sqrt() cbrt() sin() cos() tan() log() ln() abs() pi e</p>
+                </div>
+            </div>
+
+            <!-- Statistics Mode -->
+            <div id="statistics-mode" class="calculator-mode">
+                <div class="calculator statistics">
+                    <h3>Statistics</h3>
+                    <p class="expr-hint">Enter numbers separated by commas, spaces, or new lines</p>
+                    <textarea id="stats-input" class="expr-textarea" placeholder="e.g. 4, 8, 15, 16, 23, 42" rows="3" oninput="calculateStatistics()"></textarea>
+                    <div class="stats-grid" id="stats-results">
+                        <p class="no-history">Enter numbers to see statistics</p>
+                    </div>
+                    <div class="expr-buttons two-col">
+                        <button class="btn clear" onclick="clearStatistics()">Clear</button>
+                        <button class="btn equals" onclick="addStatsToHistory()">Add to History</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Permutations & Combinations -->
+            <div id="combinatorics-mode" class="calculator-mode">
+                <div class="calculator combinatorics">
+                    <h3>Permutations &amp; Combinations</h3>
+                    <div class="unit-convert-row">
+                        <div class="unit-field">
+                            <label for="combo-n">n (total items)</label>
+                            <input type="number" id="combo-n" placeholder="e.g. 10" min="0" oninput="calculateCombinatorics()">
+                        </div>
+                        <div class="unit-field">
+                            <label for="combo-r">r (chosen items)</label>
+                            <input type="number" id="combo-r" placeholder="e.g. 3" min="0" oninput="calculateCombinatorics()">
+                        </div>
+                    </div>
+                    <div class="stats-grid" id="combo-results">
+                        <p class="no-history">Enter n and r to see results</p>
+                    </div>
+                    <div class="expr-buttons two-col">
+                        <button class="btn clear" onclick="clearCombinatorics()">Clear</button>
+                        <button class="btn equals" onclick="addCombinatoricsToHistory()">Add to History</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Random Number Generator -->
+            <div id="random-mode" class="calculator-mode">
+                <div class="calculator rng">
+                    <h3>Random Number Generator</h3>
+                    <div class="unit-convert-row">
+                        <div class="unit-field">
+                            <label for="rng-min">Min</label>
+                            <input type="number" id="rng-min" value="1">
+                        </div>
+                        <div class="unit-field">
+                            <label for="rng-max">Max</label>
+                            <input type="number" id="rng-max" value="100">
+                        </div>
+                    </div>
+                    <div class="unit-convert-row">
+                        <div class="unit-field">
+                            <label for="rng-count">How many</label>
+                            <input type="number" id="rng-count" value="1" min="1" max="100">
+                        </div>
+                    </div>
+                    <div class="rng-checkboxes">
+                        <label><input type="checkbox" id="rng-integer" checked> Whole numbers only</label>
+                        <label><input type="checkbox" id="rng-no-duplicates"> No duplicates</label>
+                    </div>
+                    <div class="rng-results" id="rng-results">
+                        <p class="no-history">Click Generate to create random numbers</p>
+                    </div>
+                    <div class="expr-buttons two-col">
+                        <button class="btn clear" onclick="clearRng()">Clear</button>
+                        <button class="btn equals" onclick="generateRandomNumbers()">Generate</button>
+                    </div>
+                    <button class="btn" onclick="saveRngToHistory()" style="width: 100%; margin-top: 10px;">Add to History</button>
+                </div>
+            </div>
+
+            <!-- Matrix Calculator -->
+            <div id="matrix-mode" class="calculator-mode">
+                <div class="calculator matrix">
+                    <h3>Matrix Calculator</h3>
+                    <div class="matrix-dim-row">
+                        <div class="matrix-dim-group">
+                            <label>Matrix A</label>
+                            <div class="dim-selects">
+                                <select id="matrix-a-rows" onchange="renderMatrixGrid('a')">
+                                    <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
+                                </select>
+                                <span>×</span>
+                                <select id="matrix-a-cols" onchange="renderMatrixGrid('a')">
+                                    <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="matrix-dim-group">
+                            <label>Matrix B</label>
+                            <div class="dim-selects">
+                                <select id="matrix-b-rows" onchange="renderMatrixGrid('b')">
+                                    <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
+                                </select>
+                                <span>×</span>
+                                <select id="matrix-b-cols" onchange="renderMatrixGrid('b')">
+                                    <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="matrix-inputs-row">
+                        <div class="matrix-input-block">
+                            <label>Matrix A</label>
+                            <div class="matrix-grid" id="matrix-a-grid"></div>
+                        </div>
+                        <div class="matrix-input-block">
+                            <label>Matrix B</label>
+                            <div class="matrix-grid" id="matrix-b-grid"></div>
+                        </div>
+                    </div>
+
+                    <div class="unit-field">
+                        <label for="matrix-operation">Operation</label>
+                        <select id="matrix-operation" onchange="onMatrixOperationChange()">
+                            <option value="add">A + B</option>
+                            <option value="sub">A − B</option>
+                            <option value="mul">A × B</option>
+                            <option value="scalar">A × scalar</option>
+                            <option value="transposeA">Transpose A</option>
+                            <option value="detA">Determinant of A</option>
+                            <option value="invA">Inverse of A</option>
+                            <option value="transposeB">Transpose B</option>
+                            <option value="detB">Determinant of B</option>
+                            <option value="invB">Inverse of B</option>
+                        </select>
+                    </div>
+                    <div class="unit-field" id="matrix-scalar-row" style="display:none; margin-top: 10px;">
+                        <label for="matrix-scalar">Scalar (k)</label>
+                        <input type="number" id="matrix-scalar" value="2">
+                    </div>
+
+                    <div class="stats-grid" id="matrix-result">
+                        <p class="no-history">Choose matrices and an operation, then Calculate</p>
+                    </div>
+
+                    <div class="expr-buttons two-col">
+                        <button class="btn clear" onclick="clearMatrices()">Clear</button>
+                        <button class="btn equals" onclick="calculateMatrixOperation()">Calculate</button>
+                    </div>
+                    <button class="btn" onclick="addMatrixResultToHistory()" style="width: 100%; margin-top: 10px;">Add to History</button>
+                </div>
+            </div>
+
+            <!-- Equation Solver -->
+            <div id="equations-mode" class="calculator-mode">
+                <div class="calculator equations">
+                    <h3>Equation Solver</h3>
+                    <div class="unit-field">
+                        <label for="eq-type">Equation Type</label>
+                        <select id="eq-type" onchange="onEquationTypeChange()">
+                            <option value="linear">Linear: ax + b = 0</option>
+                            <option value="quadratic">Quadratic: ax² + bx + c = 0</option>
+                            <option value="system2">System of 2 equations</option>
+                            <option value="system3">System of 3 equations</option>
+                        </select>
+                    </div>
+
+                    <div id="eq-linear-inputs" class="eq-inputs">
+                        <div class="unit-convert-row">
+                            <div class="unit-field"><label>a</label><input type="number" id="eq-lin-a" value="1"></div>
+                            <div class="unit-field"><label>b</label><input type="number" id="eq-lin-b" value="0"></div>
+                        </div>
+                    </div>
+
+                    <div id="eq-quadratic-inputs" class="eq-inputs" style="display:none;">
+                        <div class="unit-convert-row">
+                            <div class="unit-field"><label>a</label><input type="number" id="eq-quad-a" value="1"></div>
+                            <div class="unit-field"><label>b</label><input type="number" id="eq-quad-b" value="0"></div>
+                            <div class="unit-field"><label>c</label><input type="number" id="eq-quad-c" value="0"></div>
+                        </div>
+                    </div>
+
+                    <div id="eq-system2-inputs" class="eq-inputs" style="display:none;">
+                        <p class="expr-hint">a₁x + b₁y = c₁ &nbsp;&nbsp; a₂x + b₂y = c₂</p>
+                        <div class="matrix-grid system-grid" style="grid-template-columns:repeat(3,1fr);">
+                            <input type="number" id="sys2-a1" value="1"><input type="number" id="sys2-b1" value="0"><input type="number" id="sys2-c1" value="0">
+                            <input type="number" id="sys2-a2" value="0"><input type="number" id="sys2-b2" value="1"><input type="number" id="sys2-c2" value="0">
+                        </div>
+                    </div>
+
+                    <div id="eq-system3-inputs" class="eq-inputs" style="display:none;">
+                        <p class="expr-hint">a₁x + b₁y + c₁z = d₁ &nbsp;(one row per equation)</p>
+                        <div class="matrix-grid system-grid" style="grid-template-columns:repeat(4,1fr);">
+                            <input type="number" id="sys3-a1" value="1"><input type="number" id="sys3-b1" value="0"><input type="number" id="sys3-c1" value="0"><input type="number" id="sys3-d1" value="0">
+                            <input type="number" id="sys3-a2" value="0"><input type="number" id="sys3-b2" value="1"><input type="number" id="sys3-c2" value="0"><input type="number" id="sys3-d2" value="0">
+                            <input type="number" id="sys3-a3" value="0"><input type="number" id="sys3-b3" value="0"><input type="number" id="sys3-c3" value="1"><input type="number" id="sys3-d3" value="0">
+                        </div>
+                    </div>
+
+                    <div class="stats-grid" id="eq-result">
+                        <p class="no-history">Enter coefficients, then Solve</p>
+                    </div>
+
+                    <div class="expr-buttons two-col">
+                        <button class="btn clear" onclick="clearEquationSolver()">Clear</button>
+                        <button class="btn equals" onclick="solveEquation()">Solve</button>
+                    </div>
+                    <button class="btn" onclick="addEquationResultToHistory()" style="width: 100%; margin-top: 10px;">Add to History</button>
+                </div>
+            </div>
+
+            <!-- Derivative & Integral -->
+            <div id="calculus-mode" class="calculator-mode">
+                <div class="calculator calculus">
+                    <h3>Derivative &amp; Integral</h3>
+                    <p class="expr-hint">Define f(x), e.g. <code>x^2+3*x-5</code> or <code>sin(x)</code>. Trig uses <strong>radians</strong> here (required for calculus to be exact).</p>
+                    <textarea id="calc-function" class="expr-textarea" placeholder="f(x) = ..." rows="2"></textarea>
+
+                    <div class="unit-convert-row">
+                        <div class="unit-field"><label for="calc-point">Derivative at x =</label><input type="number" id="calc-point" value="0"></div>
+                    </div>
+                    <button class="btn equals" onclick="calculateDerivative()" style="width: 100%;">Calculate f&#39;(x)</button>
+                    <div class="calc-result" id="calc-derivative-result"></div>
+                    <button class="btn-export" id="calc-derivative-save" onclick="addDerivativeToHistory()" style="display:none; margin-top: 6px;">Add to History</button>
+
+                    <div class="unit-convert-row" style="margin-top: 18px;">
+                        <div class="unit-field"><label for="calc-a">a</label><input type="number" id="calc-a" value="0"></div>
+                        <div class="unit-field"><label for="calc-b">b</label><input type="number" id="calc-b" value="1"></div>
+                    </div>
+                    <button class="btn equals" onclick="calculateIntegral()" style="width: 100%;">Calculate ∫ f(x) dx</button>
+                    <div class="calc-result" id="calc-integral-result"></div>
+                    <button class="btn-export" id="calc-integral-save" onclick="addIntegralToHistory()" style="display:none; margin-top: 6px;">Add to History</button>
+
+                    <button class="btn clear" onclick="clearCalculus()" style="width: 100%; margin-top: 15px;">Clear</button>
+                </div>
+            </div>
+
+            <!-- Graphing -->
+            <div id="graphing-mode" class="calculator-mode">
+                <div class="calculator graphing">
+                    <h3>Graphing</h3>
+                    <textarea id="graph-function" class="expr-textarea" placeholder="f(x) = ... e.g. sin(x), x^2-4" rows="2"></textarea>
+                    <div class="unit-convert-row">
+                        <div class="unit-field"><label for="graph-xmin">x min</label><input type="number" id="graph-xmin" value="-10"></div>
+                        <div class="unit-field"><label for="graph-xmax">x max</label><input type="number" id="graph-xmax" value="10"></div>
+                    </div>
+                    <div class="rng-checkboxes">
+                        <label><input type="checkbox" id="graph-show-tangent"> Show tangent at x = <input type="number" id="graph-tangent-x" value="0" class="graph-inline-input"></label>
+                        <label><input type="checkbox" id="graph-show-integral"> Shade area from <input type="number" id="graph-a" value="0" class="graph-inline-input"> to <input type="number" id="graph-b" value="2" class="graph-inline-input"></label>
+                    </div>
+                    <button class="btn equals" onclick="plotGraph()" style="width: 100%;">Plot</button>
+                    <canvas id="graph-canvas" width="380" height="260"></canvas>
+                    <div class="calc-result" id="graph-info"></div>
+                    <button class="btn clear" onclick="clearGraph()" style="width: 100%; margin-top: 10px;">Clear</button>
+                </div>
+            </div>
+
+            <!-- Complex Numbers -->
+            <div id="complex-mode" class="calculator-mode">
+                <div class="calculator complex">
+                    <h3>Complex Numbers</h3>
+                    <div class="matrix-inputs-row">
+                        <div class="matrix-input-block">
+                            <label>A = a + bi</label>
+                            <div class="unit-convert-row">
+                                <div class="unit-field"><input type="number" id="complex-a-re" value="1" placeholder="Re"></div>
+                                <div class="unit-field"><input type="number" id="complex-a-im" value="0" placeholder="Im"></div>
+                            </div>
+                        </div>
+                        <div class="matrix-input-block">
+                            <label>B = c + di</label>
+                            <div class="unit-convert-row">
+                                <div class="unit-field"><input type="number" id="complex-b-re" value="0" placeholder="Re"></div>
+                                <div class="unit-field"><input type="number" id="complex-b-im" value="1" placeholder="Im"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="unit-field">
+                        <label for="complex-operation">Operation</label>
+                        <select id="complex-operation">
+                            <option value="add">A + B</option>
+                            <option value="sub">A − B</option>
+                            <option value="mul">A × B</option>
+                            <option value="div">A ÷ B</option>
+                            <option value="conjA">Conjugate of A</option>
+                            <option value="conjB">Conjugate of B</option>
+                            <option value="polarA">Polar form of A</option>
+                            <option value="polarB">Polar form of B</option>
+                        </select>
+                    </div>
+                    <div class="stats-grid" id="complex-result">
+                        <p class="no-history">Enter values and an operation, then Calculate</p>
+                    </div>
+                    <div class="expr-buttons two-col">
+                        <button class="btn clear" onclick="clearComplex()">Clear</button>
+                        <button class="btn equals" onclick="calculateComplex()">Calculate</button>
+                    </div>
+                    <button class="btn" onclick="addComplexResultToHistory()" style="width: 100%; margin-top: 10px;">Add to History</button>
+                </div>
+            </div>
+
+            <!-- Number Theory -->
+            <div id="numtheory-mode" class="calculator-mode">
+                <div class="calculator numtheory">
+                    <h3>Number Theory</h3>
+                    <div class="unit-field">
+                        <label for="nt-type">Tool</label>
+                        <select id="nt-type" onchange="onNumTheoryTypeChange()">
+                            <option value="gcdlcm">GCD &amp; LCM</option>
+                            <option value="primecheck">Prime Check</option>
+                            <option value="factorize">Prime Factorization</option>
+                            <option value="modular">Modular Arithmetic</option>
+                        </select>
+                    </div>
+
+                    <div id="nt-gcdlcm-inputs" class="eq-inputs">
+                        <p class="expr-hint">Enter 2 or more integers, separated by commas</p>
+                        <textarea id="nt-gcdlcm-input" class="expr-textarea" rows="2" placeholder="e.g. 12, 18, 30"></textarea>
+                    </div>
+
+                    <div id="nt-primecheck-inputs" class="eq-inputs" style="display:none;">
+                        <div class="unit-field"><label for="nt-prime-n">n</label><input type="number" id="nt-prime-n" placeholder="e.g. 97" step="1"></div>
+                    </div>
+
+                    <div id="nt-factorize-inputs" class="eq-inputs" style="display:none;">
+                        <div class="unit-field"><label for="nt-factor-n">n</label><input type="number" id="nt-factor-n" placeholder="e.g. 360" step="1"></div>
+                    </div>
+
+                    <div id="nt-modular-inputs" class="eq-inputs" style="display:none;">
+                        <div class="unit-convert-row">
+                            <div class="unit-field"><label for="nt-mod-a">a</label><input type="number" id="nt-mod-a" value="7"></div>
+                            <div class="unit-field"><label for="nt-mod-n">n (modulus)</label><input type="number" id="nt-mod-n" value="5"></div>
+                        </div>
+                        <div class="unit-field"><label for="nt-mod-b">b (optional, for a^b mod n)</label><input type="number" id="nt-mod-b" placeholder="leave blank to skip"></div>
+                    </div>
+
+                    <div class="stats-grid" id="nt-result">
+                        <p class="no-history">Choose a tool and enter values, then Calculate</p>
+                    </div>
+
+                    <div class="expr-buttons two-col">
+                        <button class="btn clear" onclick="clearNumTheory()">Clear</button>
+                        <button class="btn equals" onclick="calculateNumTheory()">Calculate</button>
+                    </div>
+                    <button class="btn" onclick="addNumTheoryToHistory()" style="width: 100%; margin-top: 10px;">Add to History</button>
+                </div>
+            </div>
+
+            <!-- Financial -->
+            <div id="financial-mode" class="calculator-mode">
+                <div class="calculator financial">
+                    <h3>Financial</h3>
+                    <div class="unit-field">
+                        <label for="fin-type">Calculator</label>
+                        <select id="fin-type" onchange="onFinancialTypeChange()">
+                            <option value="loan">Loan / Mortgage Payment</option>
+                            <option value="compound">Compound Interest</option>
+                        </select>
+                    </div>
+
+                    <div id="fin-loan-inputs" class="eq-inputs">
+                        <div class="unit-convert-row">
+                            <div class="unit-field"><label for="fin-loan-principal">Principal</label><input type="number" id="fin-loan-principal" value="300000"></div>
+                            <div class="unit-field"><label for="fin-loan-rate">Annual rate %</label><input type="number" id="fin-loan-rate" value="5" step="0.01"></div>
+                        </div>
+                        <div class="unit-convert-row">
+                            <div class="unit-field"><label for="fin-loan-years">Term (years)</label><input type="number" id="fin-loan-years" value="30"></div>
+                            <div class="unit-field"><label for="fin-loan-freq">Payments/year</label><input type="number" id="fin-loan-freq" value="12"></div>
+                        </div>
+                        <div class="rng-checkboxes">
+                            <label><input type="checkbox" id="fin-show-amort"> Show first 12 payments (amortization)</label>
+                        </div>
+                    </div>
+
+                    <div id="fin-compound-inputs" class="eq-inputs" style="display:none;">
+                        <div class="unit-convert-row">
+                            <div class="unit-field"><label for="fin-comp-principal">Principal</label><input type="number" id="fin-comp-principal" value="10000"></div>
+                            <div class="unit-field"><label for="fin-comp-rate">Annual rate %</label><input type="number" id="fin-comp-rate" value="5" step="0.01"></div>
+                        </div>
+                        <div class="unit-convert-row">
+                            <div class="unit-field"><label for="fin-comp-freq">Compounds/year</label><input type="number" id="fin-comp-freq" value="12"></div>
+                            <div class="unit-field"><label for="fin-comp-years">Years</label><input type="number" id="fin-comp-years" value="10"></div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid" id="fin-result">
+                        <p class="no-history">Enter values, then Calculate</p>
+                    </div>
+
+                    <div id="fin-amort-table-wrap" style="display:none;">
+                        <div id="fin-amort-table"></div>
+                    </div>
+
+                    <div class="expr-buttons two-col">
+                        <button class="btn clear" onclick="clearFinancial()">Clear</button>
+                        <button class="btn equals" onclick="calculateFinancial()">Calculate</button>
+                    </div>
+                    <button class="btn" onclick="addFinancialToHistory()" style="width: 100%; margin-top: 10px;">Add to History</button>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div id="settings-mode" class="calculator-mode">
+                <div class="calculator settings">
+                    <h3>Settings</h3>
+
+                    <div class="settings-section">
+                        <label class="settings-label">Accent Color</label>
+                        <div class="color-swatches">
+                            <button class="color-swatch" style="background:#4cd9ff;" onclick="setAccentColor('#4cd9ff')" title="Cyan"></button>
+                            <button class="color-swatch" style="background:#b98cff;" onclick="setAccentColor('#b98cff')" title="Violet"></button>
+                            <button class="color-swatch" style="background:#39ffb0;" onclick="setAccentColor('#39ffb0')" title="Mint"></button>
+                            <button class="color-swatch" style="background:#ff4d7a;" onclick="setAccentColor('#ff4d7a')" title="Coral"></button>
+                            <button class="color-swatch" style="background:#ffc24d;" onclick="setAccentColor('#ffc24d')" title="Amber"></button>
+                            <button class="color-swatch" style="background:#4d7aff;" onclick="setAccentColor('#4d7aff')" title="Blue"></button>
+                            <input type="color" id="accent-color-picker" value="#4cd9ff" onchange="setAccentColor(this.value)" title="Custom color">
+                            <button class="btn-export" onclick="resetAccentColor()">Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="unit-field">
+                            <label for="settings-precision">Decimal Precision (0–10)</label>
+                            <input type="number" id="settings-precision" min="0" max="10" value="4" onchange="setDecimalPrecision(this.value)">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <label class="settings-label">Angle Unit — Scientific &amp; Expression modes</label>
+                        <p class="expr-hint">Calculus and Graphing always use radians (required for correct derivatives/integrals) regardless of this setting.</p>
+                        <div class="rng-checkboxes">
+                            <label><input type="radio" name="angle-unit" value="degrees" checked onchange="setAngleUnit('degrees')"> Degrees</label>
+                            <label><input type="radio" name="angle-unit" value="radians" onchange="setAngleUnit('radians')"> Radians</label>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <label class="settings-label">Variables</label>
+                        <p class="expr-hint">Define named values to reuse in Expression, Calculus, and Graphing — e.g. set r = 5, then type <code>pi*r^2</code>.</p>
+                        <div class="unit-convert-row">
+                            <div class="unit-field"><input type="text" id="var-name" placeholder="name (e.g. r)"></div>
+                            <div class="unit-field"><input type="number" id="var-value" placeholder="value"></div>
+                            <button class="btn equals" onclick="setVariable()" style="flex: 0 0 auto;">Set</button>
+                        </div>
+                        <p class="expr-hint" id="var-message" style="color: var(--danger-color); min-height: 1.2em;"></p>
+                        <div class="stats-grid" id="variables-list">
+                            <p class="no-history">No variables defined</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <label class="settings-label">Keyboard Shortcuts</label>
+                        <div class="shortcuts-list">
+                            <div class="shortcut-row"><span>0–9 , .</span><span>Enter digits</span></div>
+                            <div class="shortcut-row"><span>+ − × ÷ %</span><span>Operators</span></div>
+                            <div class="shortcut-row"><span>Enter / =</span><span>Calculate</span></div>
+                            <div class="shortcut-row"><span>Backspace</span><span>Delete last character</span></div>
+                            <div class="shortcut-row"><span>Escape</span><span>Clear</span></div>
+                            <div class="shortcut-row"><span>Enter (Expression box)</span><span>Evaluate</span></div>
+                            <div class="shortcut-row"><span>Shift+Enter (Expression box)</span><span>New line</span></div>
+                        </div>
+                        <p class="expr-hint">These apply in Simple, Scientific, Programmer, and Expression modes. Every other tab uses plain form fields — Tab and type as normal.</p>
+                    </div>
+
+                    <div class="settings-section">
+                        <label class="settings-label">App</label>
+                        <p class="expr-hint" id="connection-status">●&nbsp; Checking connection…</p>
+                        <button class="btn equals" id="install-app-btn" onclick="installApp()" style="width: 100%; display: none; margin-top: 8px;">⬇ Install App</button>
+                        <p class="expr-hint">Once installed (or after one online visit in a browser tab), the calculator — including Simple, Scientific, and every offline-capable tool — keeps working without a connection. Only the Currency tab needs a live connection, for exchange rates.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favorites Panel -->
+            <div id="favorites-mode" class="calculator-mode">
+                <div class="history-panel favorites-panel standalone">
+                    <div class="history-header">
+                        <h3>★ Favorites</h3>
+                        <button class="btn-clear-history" onclick="clearFavorites()">Clear</button>
+                    </div>
+                    <div class="history-list" id="favorites-list">
+                        <p class="no-history">No favorites yet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Panel -->
+            <div id="history-mode" class="calculator-mode">
+                <div class="history-panel standalone">
+                    <div class="history-header">
+                        <h3>History</h3>
+                        <div class="history-header-actions">
+                            <button class="btn-export" onclick="exportHistory('csv')" title="Export as CSV">CSV</button>
+                            <button class="btn-export" onclick="exportHistory('json')" title="Export as JSON">JSON</button>
+                            <button class="btn-clear-history" onclick="clearHistory()">Clear</button>
+                        </div>
+                    </div>
+                    <div class="history-list" id="history-list">
+                        <p class="no-history">No calculations yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
